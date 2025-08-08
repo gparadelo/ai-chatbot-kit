@@ -1,6 +1,6 @@
-# AI Chatbot Kit - FastAPI Backend
+# AI Chatbot Kit - FastAPI Backend + Streamlit Frontend
 
-A simple, scalable FastAPI backend for AI chatbot applications with basic chat functionality and health monitoring.
+A simple, scalable FastAPI backend for AI chatbot applications with basic chat functionality, health monitoring, and a Streamlit frontend for easy testing.
 
 ## Features
 
@@ -8,6 +8,7 @@ A simple, scalable FastAPI backend for AI chatbot applications with basic chat f
 - 💬 **Chat Endpoint** - Send messages and get mocked responses
 - 📊 **Health Monitoring** - Simple health check
 - 📝 **Auto Documentation** - Interactive API docs with Swagger UI
+- 🎨 **Streamlit Frontend** - Simple web interface for testing the API
 - 🐳 **Docker Ready** - Containerization support
 
 ## Quick Start
@@ -48,6 +49,13 @@ A simple, scalable FastAPI backend for AI chatbot applications with basic chat f
    ```
 
 The API will be available at `http://localhost:8000`
+
+6. **Run the Streamlit frontend (optional)**
+   ```bash
+   streamlit run frontend.py --server.port=8501
+   ```
+
+The frontend will be available at `http://localhost:8501`
 
 ## API Documentation
 
@@ -99,10 +107,13 @@ ai-chatbot-kit/
 │       └── health.py          # Health check endpoint
 ├── main.py                    # Application entry point
 ├── run.py                     # Startup script
+├── frontend.py                # Streamlit frontend
 ├── requirements.txt           # Python dependencies
 ├── env.example               # Environment variables template
-├── Dockerfile                # Container configuration
+├── Dockerfile                # API container configuration
+├── Dockerfile.frontend       # Frontend container configuration
 ├── docker-compose.yml        # Multi-service setup
+├── run_docker.sh             # Docker startup script
 ├── .gitignore               # Git exclusions
 └── README.md                # This file
 ```
@@ -125,20 +136,46 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 ## Docker Support
 
-### Build and Run with Docker
+### Quick Start with Docker
 
 ```bash
-# Build the image
-docker build -t ai-chatbot-kit .
+# Run the entire application (API + Frontend)
+./run_docker.sh
 
-# Run the container
-docker run -p 8000:8000 ai-chatbot-kit
+# Or manually with docker-compose
+docker-compose up --build -d
 ```
 
-### Docker Compose
+### Individual Services
 
 ```bash
+# Build and run just the API
+docker build -t ai-chatbot-kit .
+docker run -p 8000:8000 ai-chatbot-kit
+
+# Build and run just the frontend
+docker build -f Dockerfile.frontend -t ai-chatbot-frontend .
+docker run -p 8501:8501 -e API_URL=http://host.docker.internal:8000/chat ai-chatbot-frontend
+```
+
+### Docker Compose Services
+
+The application includes two services:
+- **API Service** (`api`): FastAPI backend running on port 8000
+- **Frontend Service** (`frontend`): Streamlit interface running on port 8501
+
+```bash
+# Start all services
 docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Rebuild and restart
+docker-compose up --build -d
 ```
 
 ## Example Usage
