@@ -8,11 +8,17 @@ st.set_page_config(page_title="AI Chatbot Kit", layout="centered")
 # Title
 st.title("AI Chatbot Kit")
 
-# API endpoint - read from environment variable
-API_URL = os.getenv("API_URL")
-if not API_URL:
+# API base URL - read from environment variable
+API_BASE_URL = os.getenv("API_URL")
+if not API_BASE_URL:
     st.error("API_URL environment variable is not set")
     st.stop()
+
+# Remove trailing slash if present
+API_BASE_URL = API_BASE_URL.rstrip('/')
+
+# Construct endpoint URLs
+CHAT_ENDPOINT = f"{API_BASE_URL}/api/chat/"
 
 # Simple text input
 user_message = st.text_input("Enter your message:")
@@ -24,7 +30,7 @@ if st.button("Send"):
             with st.spinner("Sending..."):
                 with httpx.Client() as client:
                     response = client.post(
-                        API_URL,
+                        CHAT_ENDPOINT,
                         params={"message": user_message}
                     )
                 

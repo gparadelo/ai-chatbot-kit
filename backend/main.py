@@ -27,9 +27,9 @@ app.add_middleware(
     allow_headers=settings.cors_allow_headers,
 )
 
-# Include routers
-app.include_router(health.router)
-app.include_router(chat.router)
+# Include routers with /api prefix
+app.include_router(health.router, prefix="/api")
+app.include_router(chat.router, prefix="/api")
 
 @app.get("/", response_model=dict)
 async def root():

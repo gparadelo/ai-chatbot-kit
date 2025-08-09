@@ -7,7 +7,7 @@ Streamlit frontend for the AI Chatbot Kit.
 ```bash
 cd frontend
 docker build -t frontend .
-docker run -p 8501:8501 -e API_URL=http://localhost:8000/api/chat/ frontend
+docker run -p 8501:8501 -e API_URL=http://localhost:8000 frontend
 ```
 
 ## Railway Deployment
@@ -16,5 +16,5 @@ Deploy this directory as a Railway service. Railway will automatically detect th
 
 ## Environment Variables
 
-- `API_URL` - URL of the backend API (required)
+- `API_URL` - Base URL of the backend API (required, e.g., `http://localhost:8000`)
 - `DEBUG` - Enable debug mode (optional)
