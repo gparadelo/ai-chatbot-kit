@@ -75,8 +75,12 @@ ai-chatbot-kit/
 │   └── requirements.txt
 ├── shared/                            # 🆕 Shared utilities between frontend/backend
 │   ├── __init__.py
-│   ├── constants.py
-│   └── schemas.py
+│   ├── chat_core.py                   # Single source of truth for chat logic
+│   └── crews/
+│       ├── __init__.py
+│       ├── agent.yaml
+│       ├── tasks.yaml
+│       └── crew_ai.py
 ├── docker-compose.yml
 ├── env.example
 ├── README.md
@@ -84,6 +88,9 @@ ai-chatbot-kit/
 
 
 ## Local Development
+
+- docker-compose spins up two services, but both import the shared core.
+- Streamlit can run without API if `API_URL` is unset and `shared/` is available.
 
 ### Setup
 1. Copy the environment file:
@@ -107,35 +114,10 @@ ai-chatbot-kit/
 
 ## Railway Deployment
 
-This project is configured for Railway's **private networking**, keeping your backend secure and internal.
+This project is configured for Railway's private networking, keeping your backend secure and internal.
 
-### Prerequisites
-- Get your OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
-- Ensure you have sufficient credits in your OpenAI account
-
-### Deploy Backend
-1. Create a new Railway service named `backend`
-2. Connect to this repository
-3. Set the **Source Directory** to `backend`
-4. Add required environment variables:
-   - `OPENAI_API_KEY=your_actual_openai_api_key_here`
-   - `HOST=::` (required for Railway's IPv6 networking)
-   - `DEBUG=false` (optional)
-   - `AI_PROVIDER=openai` (optional)
-5. Railway will automatically detect the Dockerfile
-
-### Deploy Frontend
-1. Create another Railway service named `frontend` in the same project
-2. Connect to this repository
-3. Set the **Source Directory** to `frontend`
-4. Add environment variable: `API_URL=http://${{backend.RAILWAY_PRIVATE_DOMAIN}}:8000`
-5. Add a public domain for the frontend (this is the only public service)
-
-### Private Network Benefits
-- Backend is completely private (no public access)
-- Internal communication via Railway's private network
-- Faster performance and enhanced security
-- Automatic environment variable templating
+- Backend and frontend Dockerfiles now COPY `shared/` so both can use the same logic.
+- Streamlit can call the API (recommended) or run in direct-core mode if `API_URL` is not set.
 
 ## API Endpoints
 
