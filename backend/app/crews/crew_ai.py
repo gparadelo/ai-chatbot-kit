@@ -13,7 +13,6 @@ class CrewaiConversationalChatbotCrew:
     def assistant(self) -> Agent:
         return Agent(
             config=self.agents_config["assistant"],
-            llm="ollama/llama3.1",
             verbose=False,
         )
 

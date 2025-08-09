@@ -85,24 +85,44 @@ ai-chatbot-kit/
 
 ## Local Development
 
-```bash
-# Start both services
-docker-compose up --build
+### Setup
+1. Copy the environment file:
+   ```bash
+   cp env.example .env
+   ```
 
-# Access the application
-# Frontend: http://localhost:8501
-# Backend API: http://localhost:8000
-```
+2. Update `.env` with your OpenAI API key:
+   ```bash
+   OPENAI_API_KEY=your_actual_openai_api_key_here
+   ```
+
+3. Start both services:
+   ```bash
+   docker-compose up --build
+   ```
+
+4. Access the application:
+   - Frontend: http://localhost:8501
+   - Backend API: http://localhost:8000
 
 ## Railway Deployment
 
 This project is configured for Railway's **private networking**, keeping your backend secure and internal.
 
+### Prerequisites
+- Get your OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+- Ensure you have sufficient credits in your OpenAI account
+
 ### Deploy Backend
 1. Create a new Railway service named `backend`
 2. Connect to this repository
 3. Set the **Source Directory** to `backend`
-4. Railway will automatically detect the Dockerfile
+4. Add required environment variables:
+   - `OPENAI_API_KEY=your_actual_openai_api_key_here`
+   - `HOST=::` (required for Railway's IPv6 networking)
+   - `DEBUG=false` (optional)
+   - `AI_PROVIDER=openai` (optional)
+5. Railway will automatically detect the Dockerfile
 
 ### Deploy Frontend
 1. Create another Railway service named `frontend` in the same project
