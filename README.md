@@ -4,12 +4,84 @@ A simple AI chatbot with FastAPI backend and Streamlit frontend.
 
 ## Project Structure
 
-```
 ai-chatbot-kit/
-├── backend/          # FastAPI backend service
-├── frontend/         # Streamlit frontend service
-└── docker-compose.yml # Local development setup
-```
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   └── config.py
+│   │   ├── routers/
+│   │   │   ├── __init__.py
+│   │   │   ├── chat.py
+│   │   │   ├── health.py
+│   │   │   └── agents.py              # 🆕 New agents router
+│   │   ├── services/                  # 🆕 Business logic layer
+│   │   │   ├── __init__.py
+│   │   │   ├── chat_service.py
+│   │   │   └── agent_service.py
+│   │   ├── agents/                    # 🆕 CrewAI agents organization
+│   │   │   ├── __init__.py
+│   │   │   ├── base/                  # Base classes and utilities
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── agent_base.py
+│   │   │   │   └── crew_base.py
+│   │   │   ├── crews/                 # Crew definitions
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── research_crew.py
+│   │   │   │   ├── content_crew.py
+│   │   │   │   └── analysis_crew.py
+│   │   │   ├── agents/                # Individual agent definitions
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── researcher.py
+│   │   │   │   ├── writer.py
+│   │   │   │   ├── analyst.py
+│   │   │   │   └── reviewer.py
+│   │   │   ├── tools/                 # Custom tools for agents
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── web_search.py
+│   │   │   │   ├── file_processor.py
+│   │   │   │   └── api_tools.py
+│   │   │   └── tasks/                 # Task definitions
+│   │   │       ├── __init__.py
+│   │   │       ├── research_tasks.py
+│   │   │       ├── content_tasks.py
+│   │   │       └── analysis_tasks.py
+│   │   ├── models/                    # 🆕 Pydantic models
+│   │   │   ├── __init__.py
+│   │   │   ├── chat.py
+│   │   │   ├── agent.py
+│   │   │   └── crew.py
+│   │   └── utils/                     # 🆕 Utility functions
+│   │       ├── __init__.py
+│   │       ├── logging.py
+│   │       └── exceptions.py
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── README.md
+│   └── requirements.txt               # Update with CrewAI dependencies
+├── frontend/
+│   ├── pages/                         # 🆕 Multiple Streamlit pages
+│   │   ├── 1_💬_Chat.py
+│   │   ├── 2_🤖_Agents.py
+│   │   └── 3_📊_Results.py
+│   ├── components/                    # 🆕 Reusable UI components
+│   │   ├── __init__.py
+│   │   ├── chat_interface.py
+│   │   └── agent_interface.py
+│   ├── frontend.py
+│   ├── Dockerfile
+│   ├── README.md
+│   └── requirements.txt
+├── shared/                            # 🆕 Shared utilities between frontend/backend
+│   ├── __init__.py
+│   ├── constants.py
+│   └── schemas.py
+├── docker-compose.yml
+├── env.example
+├── README.md
+└── run.py
+
 
 ## Local Development
 
