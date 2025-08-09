@@ -21,7 +21,7 @@ CHAT_ENDPOINT = f"{API_BASE_URL}/api/chat/"
 # Streamed response function for API calls
 def get_api_response(message):
     try:
-        with httpx.Client() as client:
+        with httpx.Client(timeout=30.0) as client:
             response = client.post(
                 CHAT_ENDPOINT,
                 params={"message": message}

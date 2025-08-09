@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from ..crews.crew_ai import CrewaiConversationalChatbotCrew
+from ..crew.crew import CrewaiConversationalChatbotCrew
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

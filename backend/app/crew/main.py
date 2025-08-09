@@ -1,4 +1,4 @@
-from crew_ai import CrewaiConversationalChatbotCrew
+from crew import CrewaiConversationalChatbotCrew
 from dotenv import load_dotenv
 
 load_dotenv()

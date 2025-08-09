@@ -6,14 +6,15 @@ import os
 class CrewaiConversationalChatbotCrew:
     """CrewaiConversationalChatbot crew"""
 
-    agents_config = "agent.yaml"
-    tasks_config = "tasks.yaml"
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
 
     @agent
     def assistant(self) -> Agent:
         return Agent(
             config=self.agents_config["assistant"],
             verbose=False,
+
         )
 
     @task
