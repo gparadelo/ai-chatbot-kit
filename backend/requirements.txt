@@ -4,4 +4,4 @@ pydantic==2.11.7
 pydantic-settings==2.10.1
 python-dotenv==1.1.1
 httpx==0.28.1
-crewai
+crewai==0.157.0

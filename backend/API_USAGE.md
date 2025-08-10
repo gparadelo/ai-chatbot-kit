@@ -2,6 +2,20 @@
 
 This backend is designed to work seamlessly with your own frontend while maintaining security.
 
+## Configuration
+
+### Environment Variables
+
+The backend uses these key environment variables:
+
+#### AI Model Configuration
+- `OPENAI_API_KEY`: API key for OpenAI models (GPT-4, GPT-3.5-turbo, etc.)
+- `ANTHROPIC_API_KEY`: API key for Anthropic models (Claude-3, etc.)
+- **Note**: Model selection is configured in `backend/app/crew/config/agents.yaml`
+
+#### CORS Configuration
+- `CORS_ORIGINS_STR`: Comma-separated list of allowed frontend domains
+
 ## Default Behavior (Recommended)
 
 By default, **CORS is disabled** for security. This is perfect for:

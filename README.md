@@ -83,6 +83,16 @@ ai-chatbot-kit/
 └── run.py
 
 
+## Features
+
+- **FastAPI Backend**: Production-ready API with automatic documentation
+- **Streamlit Frontend**: Beautiful chat interface with conversation history  
+- **Multiple AI Models**: Support for OpenAI GPT and Anthropic Claude models
+- **CrewAI Framework**: Easily extensible with agents and tools
+- **Railway Deployment**: One-click deployment with private networking
+- **API-First Design**: Use our frontend or build your own
+- **Smart Configuration**: Automatic validation and error handling
+
 ## Local Development
 
 ### Setup
@@ -91,9 +101,13 @@ ai-chatbot-kit/
    cp env.example .env
    ```
 
-2. Update `.env` with your OpenAI API key:
+2. Update `.env` with your API keys:
    ```bash
+   # Set at least one API key to enable AI functionality
    OPENAI_API_KEY=your_actual_openai_api_key_here
+   ANTHROPIC_API_KEY=your_anthropic_api_key_here
+   
+   # Note: Model selection is configured in backend/app/crew/config/agents.yaml
    ```
 
 3. Start both services:
@@ -118,8 +132,10 @@ This project is configured for Railway's **private networking**, keeping your ba
 2. Connect to this repository
 3. Set the **Source Directory** to `backend`
 4. Add required environment variables:
-   - `OPENAI_API_KEY=your_actual_openai_api_key_here`
+   - `OPENAI_API_KEY=your_actual_openai_api_key_here` (if using OpenAI)
+   - `ANTHROPIC_API_KEY=your_anthropic_api_key_here` (if using Anthropic)
    - `HOST=::` (required for Railway's IPv6 networking)
+   - **Note**: Model selection is configured per agent in `backend/app/crew/config/agents.yaml`
 5. Railway will automatically detect the Dockerfile
 6. Create a new Railway volume attatched to `backend` mounted on `/data`
 

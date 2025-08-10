@@ -48,7 +48,7 @@ def get_api_response(message, thread_id):
     # Stream the response word by word
     for word in bot_response.split():
         yield word + " "
-        time.sleep(0.05)
+        time.sleep(0.02)
 
 # Initialize chat history and thread_id first
 if "messages" not in st.session_state:

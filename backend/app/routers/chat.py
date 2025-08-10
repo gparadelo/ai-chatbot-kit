@@ -9,11 +9,13 @@ import uuid
 logger = logging.getLogger(__name__)
 
 # Initialize CrewAI once (not per request)
+crew = None
 try:
     crew = CrewaiConversationalChatbotCrew()
     logger.info("CrewAI initialized successfully")
 except Exception as e:
-    logger.warning(f"CrewAI initialization failed: {e}")
+    logger.error(f"CrewAI initialization failed: {e}")
+    logger.error("Please check your API keys and model configuration")
     crew = None
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -70,7 +72,7 @@ INSTRUCTION: Before responding to the current query, analyze the conversation hi
 
 Then, reformulate your understanding of the current query to incorporate all relevant context from the conversation history. Frame your response as if you have full awareness of the entire conversation thread, ensuring continuity and personalized assistance.
 
-Respond to the current query with this integrated context in mind."""
+Respond to the current query with this integrated context in mind. Format your response as a markdown string."""
 
     return context_prompt
 
@@ -96,7 +98,10 @@ async def chat(request: ChatRequest):
         
         # Use pre-initialized CrewAI chatbot
         if not crew:
-            raise Exception("CrewAI not initialized")
+            raise HTTPException(
+                status_code=500, 
+                detail="AI service not available. Please check your API configuration and restart the service."
+            )
         
         # Build context-aware prompt with conversation history
         enhanced_message = build_context_prompt(thread_id, message)

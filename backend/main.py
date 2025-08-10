@@ -9,6 +9,16 @@ from app.routers import chat, health
 # Load environment variables
 load_dotenv()
 
+# Validate API configuration before startup
+try:
+    settings.validate_api_config()
+    print("✅ API configuration validated")
+except ValueError as e:
+    print(f"❌ API configuration error: {e}")
+    print("Please check your .env file and ensure at least one API key is set")
+    print("Make sure to run the backend from the root directory where .env is located")
+    exit(1)
+
 # Initialize FastAPI app
 app = FastAPI(
     title=settings.api_title,

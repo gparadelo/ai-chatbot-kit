@@ -15,12 +15,13 @@ class Settings(BaseSettings):
     port: int = 8000
     reload: bool = True
     
-    # OpenAI Configuration
+    # AI Model API Keys
     openai_api_key: str = ""
+    anthropic_api_key: str = ""
     
     # CORS Configuration
-    cors_origins_str: str = "*"
-    cors_allow_methods: List[str] = ["*"]
+    cors_origins_str: str = ""
+    cors_allow_methods: List[str] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     cors_allow_headers: List[str] = ["*"]
     
     @property
@@ -30,12 +31,30 @@ class Settings(BaseSettings):
             return []
         return [origin.strip() for origin in self.cors_origins_str.split(',') if origin.strip()]
     
+    def validate_api_config(self) -> None:
+        """Validate API configuration and report available models"""
+        openai_available = bool(self.openai_api_key)
+        anthropic_available = bool(self.anthropic_api_key)
+        
+        if not openai_available and not anthropic_available:
+            raise ValueError("No API keys configured. Please set either OPENAI_API_KEY or ANTHROPIC_API_KEY")
+        
+        # Print status of available models
+        print("🔑 API Key Status:")
+        print(f"   OpenAI: {'✅' if openai_available else '❌'}")
+        print(f"   Anthropic: {'✅' if anthropic_available else '❌'}")
+        
+        if openai_available:
+            print(f"   OpenAI Key: {self.openai_api_key[:20]}...")
+        if anthropic_available:
+            print(f"   Anthropic Key: {self.anthropic_api_key[:20]}...")
+    
     # Logging Configuration
     log_level: str = "INFO"
     log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     
     class Config:
-        env_file = ".env"
+        env_file = [".env", "../.env"]  # Try current dir first, then parent dir
         case_sensitive = False
 
 # Create global settings instance
