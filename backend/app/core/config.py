@@ -15,11 +15,20 @@ class Settings(BaseSettings):
     port: int = 8000
     reload: bool = True
     
+    # OpenAI Configuration
+    openai_api_key: str = ""
+    
     # CORS Configuration
-    cors_origins: List[str] = ["*"]
-    cors_allow_credentials: bool = True
+    cors_origins_str: str = "*"
     cors_allow_methods: List[str] = ["*"]
     cors_allow_headers: List[str] = ["*"]
+    
+    @property
+    def cors_origins(self) -> List[str]:
+        """Parse CORS_ORIGINS from comma-separated string"""
+        if not self.cors_origins_str:
+            return []
+        return [origin.strip() for origin in self.cors_origins_str.split(',') if origin.strip()]
     
     # Logging Configuration
     log_level: str = "INFO"

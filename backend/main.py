@@ -18,14 +18,18 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=settings.cors_allow_credentials,
-    allow_methods=settings.cors_allow_methods,
-    allow_headers=settings.cors_allow_headers,
-)
+# CORS middleware - only add if origins are specified
+if settings.cors_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_credentials=settings.cors_allow_credentials,
+        allow_methods=settings.cors_allow_methods,
+        allow_headers=settings.cors_allow_headers,
+    )
+    print(f"🔓 CORS enabled for origins: {settings.cors_origins}")
+else:
+    print("🔒 CORS disabled - backend is secure for private networking")
 
 # Include routers with /api prefix
 app.include_router(health.router, prefix="/api")

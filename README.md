@@ -120,9 +120,8 @@ This project is configured for Railway's **private networking**, keeping your ba
 4. Add required environment variables:
    - `OPENAI_API_KEY=your_actual_openai_api_key_here`
    - `HOST=::` (required for Railway's IPv6 networking)
-   - `DEBUG=false` (optional)
-   - `AI_PROVIDER=openai` (optional)
 5. Railway will automatically detect the Dockerfile
+6. Create a new Railway volume attatched to `backend` mounted on `/data`
 
 ### Deploy Frontend
 1. Create another Railway service named `frontend` in the same project
@@ -131,13 +130,15 @@ This project is configured for Railway's **private networking**, keeping your ba
 4. Add environment variable: `API_URL=http://${{backend.RAILWAY_PRIVATE_DOMAIN}}:8000`
 5. Add a public domain for the frontend (this is the only public service)
 
-### Private Network Benefits
-- Backend is completely private (no public access)
-- Internal communication via Railway's private network
-- Faster performance and enhanced security
-- Automatic environment variable templating
-
 ## API Endpoints
 
 - `GET /api/health/` - Health check
-- `POST /api/chat/` - Chat endpoint (use `message` query parameter) 
+- `POST /api/chat/` - Chat endpoint (use `message` and `thread_id` query parameters)
+
+## Using Only the Backend
+
+Want to use your own frontend? Check out [backend/API_USAGE.md](backend/API_USAGE.md) for:
+- How to enable CORS for your domain
+- Complete API documentation
+- Integration examples in JavaScript, Python, and cURL
+- Security best practices

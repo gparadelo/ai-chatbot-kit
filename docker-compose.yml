@@ -5,8 +5,8 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=true
-      - AI_PROVIDER=openai
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CORS_ORIGINS_STR=${CORS_ORIGINS_STR}
       - HOST=0.0.0.0
     volumes:
       - ./backend:/app
