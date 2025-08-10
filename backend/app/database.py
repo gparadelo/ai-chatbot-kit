@@ -154,47 +154,6 @@ def cleanup_expired_threads():
         logger.error(f"Failed to cleanup expired threads: {e}")
         return 0
 
-def get_thread_stats(thread_id: str) -> Dict[str, int]:
-    """Get statistics for a conversation thread"""
-    try:
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            SELECT 
-                COUNT(*) as total_messages,
-                COUNT(CASE WHEN role = 'user' THEN 1 END) as user_messages,
-                COUNT(CASE WHEN role = 'assistant' THEN 1 END) as assistant_messages,
-                MIN(timestamp) as first_message,
-                MAX(timestamp) as last_message
-            FROM conversation_threads
-            WHERE thread_id = ?
-        """, (thread_id,))
-        
-        row = cursor.fetchone()
-        conn.close()
-        
-        if row:
-            return {
-                "total_messages": row[0],
-                "user_messages": row[1], 
-                "assistant_messages": row[2],
-                "first_message": row[3],
-                "last_message": row[4]
-            }
-        else:
-            return {
-                "total_messages": 0,
-                "user_messages": 0,
-                "assistant_messages": 0,
-                "first_message": None,
-                "last_message": None
-            }
-            
-    except Exception as e:
-        logger.error(f"Failed to get thread stats for {thread_id}: {e}")
-        return {}
-
 # Initialize database on module import
 try:
     init_database()

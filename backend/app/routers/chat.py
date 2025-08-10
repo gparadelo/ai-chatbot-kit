@@ -59,20 +59,10 @@ def build_context_prompt(thread_id: str, current_message: str) -> str:
     
     # Add numbered conversations to the prompt
     for i, conversation in enumerate(conversations[-5:], 1):  # Last 5 conversations
-        context_prompt += f"CONVERSATION {i}:\n{conversation}\n\n"
+        context_prompt += f"MESSAGE {i}:\n{conversation}\n\n"
     
     # Add current query and instructions
-    context_prompt += f"""CURRENT USER QUERY: {current_message}
-
-INSTRUCTION: Before responding to the current query, analyze the conversation history above to identify:
-- Relevant context from previous discussions
-- User preferences and patterns  
-- Ongoing topics or unresolved questions
-- Any referenced information from past conversations
-
-Then, reformulate your understanding of the current query to incorporate all relevant context from the conversation history. Frame your response as if you have full awareness of the entire conversation thread, ensuring continuity and personalized assistance.
-
-Respond to the current query with this integrated context in mind. Format your response as a markdown string."""
+    context_prompt += f"CURRENT USER QUERY: {current_message}"
 
     return context_prompt
 
@@ -89,8 +79,7 @@ async def chat(request: ChatRequest):
             thread_id = str(uuid.uuid4())
             logger.info(f"Generated new thread_id: {thread_id}")
         
-        # Cleanup expired threads periodically (simple approach)
-        # In production, you'd want this as a background task
+        # Cleanup expired threads periodically
         try:
             cleanup_expired_threads()
         except Exception as e:
@@ -126,7 +115,7 @@ async def chat(request: ChatRequest):
     
     except Exception as e:
         # Fallback response for any errors
-        fallback_response = f"🤖 AI Assistant: I received your message '{message}'. There was an issue connecting to the AI service: {str(e)}"
+        fallback_response = f"AI Assistant: I received your message '{message}'. There was an issue connecting to the AI service: {str(e)}"
         
         # Still try to store messages even on error
         if thread_id:
