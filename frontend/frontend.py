@@ -59,35 +59,54 @@ if "thread_id" not in st.session_state:
 
 st.title("AI Chatbot Kit")
 
-# Add new conversation button in the header area
+
+# Add new conversation button in the header area (cleaned up)
 col1, col2 = st.columns([3, 1])
 with col1:
-    if st.session_state.messages:
-        st.caption(f"💬 {len(st.session_state.messages)} messages in this conversation")
-    else:
-        st.caption("💡 Start a conversation below")
+    # Removed the caption text
+    pass
         
 with col2:
-    if st.button("🔄 New Chat", use_container_width=True):
+    if st.button("New Chat", use_container_width=True):
         st.session_state.thread_id = str(uuid.uuid4())
         st.session_state.messages = []
         st.rerun()
 
-# Display chat messages from history on app rerun
+# --- Display Existing Messages (containers without visual effect) ---
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if message["role"] == "user":
+        with st.container():
+            st.markdown(f"**{message['content']}**")
+    else:
+        with st.container():
+            st.markdown(message["content"])
 
-# Accept user input
-if prompt := st.chat_input("What can I help you with?"):
-    # Add user message to chat history
+# --- User Input and Response Generation (removed spinner, kept word-by-word) ---
+if prompt := st.chat_input("What would you like to know?"):
+    # Append the user's prompt to the chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
-    # Display user message in chat message container
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    
+    # Display the user's message
+    with st.container():
+        st.markdown(f"**{prompt}**")
 
-    # Display assistant response in chat message container
-    with st.chat_message("assistant"):
-        response = st.write_stream(get_api_response(prompt, st.session_state.thread_id))
-    # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    # Display assistant response with word-by-word streaming
+    with st.container():
+        # Call your existing API function to get a response
+        response_stream = get_api_response(prompt, st.session_state.thread_id)
+        
+        # Display the streaming effect word by word
+        message_placeholder = st.empty()
+        full_response = ""
+        
+        # Stream the response word by word (matching Gemini style)
+        for word in response_stream:
+            full_response += word
+            time.sleep(0.05)  # Simulate a slight delay for better streaming effect
+            message_placeholder.markdown(f"{full_response}▌")
+        
+        # Final message without cursor
+        message_placeholder.markdown(full_response)
+        
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
