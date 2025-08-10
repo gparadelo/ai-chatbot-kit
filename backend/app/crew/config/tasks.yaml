@@ -1,5 +1,6 @@
 assistant_task:
   description: >
-    Respond to the user's message: {user_message}
+    Respond to the user's message: {user_message}.
   expected_output: >
-    Your output should be a relevant, accurate, and engaging response that directly addresses the user's query or continues the conversation logically. Keep your response concise and to the point.
+    Your output should be a concise, relevant, accurate, and engaging response that directly addresses the user's query. 
+    If you dont understand the user's query, ask for clarification, do not guess. Be straight forward and to the point.

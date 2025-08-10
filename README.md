@@ -93,16 +93,32 @@ ai-chatbot-kit/
 - **API-First Design**: Use our frontend or build your own
 - **Smart Configuration**: Automatic validation and error handling
 
-## Local Development
+## Prerequisites
+
+Before running this project, ensure you have the following installed on your system:
+
+### Required Software
+- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
+
+### Optional Software (Not Needed: In case you want to run the code locally without Docker)
+- **Python**: [Install Python](https://www.python.org/downloads/)
+- **pip**: Python package installer (usually comes with Python)
+- Install libraries in `requirements.txt` files.
+
+### LLM Connection
+- Get your OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+- 
+
 
 ### Setup
-1. Copy the environment file:
+1. Copy the `env.example` file and rename it to `.env`:
+   Using the terminal:
    ```bash
    cp env.example .env
    ```
 
 2. Update `.env` with your API keys:
-   ```bash
+   ```
    # Set at least one API key to enable AI functionality
    OPENAI_API_KEY=your_actual_openai_api_key_here
    ANTHROPIC_API_KEY=your_anthropic_api_key_here
@@ -110,9 +126,13 @@ ai-chatbot-kit/
    # Note: Model selection is configured in backend/app/crew/config/agents.yaml
    ```
 
-3. Start both services:
+3. Start both services (frontend and backend):
    ```bash
    docker-compose up --build
+   ```
+   After the project has been built, you can restart it with:
+   ```bash
+   docker-compose up
    ```
 
 4. Access the application:
@@ -123,11 +143,11 @@ ai-chatbot-kit/
 
 This project is configured for Railway's **private networking**, keeping your backend secure and internal.
 
-### Prerequisites
-- Get your OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
-- Ensure you have sufficient credits in your OpenAI account
+You can choose to follow the step-by-step tutorial which will use Railway to deploy the project. If you want to use another hosting service, please feel free to do so. 
 
-### Deploy Backend
+### How to deploy the project: 
+
+#### Deploy Backend
 1. Create a new Railway service named `backend`
 2. Connect to this repository
 3. Set the **Source Directory** to `backend`
@@ -139,7 +159,7 @@ This project is configured for Railway's **private networking**, keeping your ba
 5. Railway will automatically detect the Dockerfile
 6. Create a new Railway volume attatched to `backend` mounted on `/data`
 
-### Deploy Frontend
+#### Deploy Frontend
 1. Create another Railway service named `frontend` in the same project
 2. Connect to this repository
 3. Set the **Source Directory** to `frontend`

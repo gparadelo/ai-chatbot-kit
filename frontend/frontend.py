@@ -4,10 +4,21 @@ import os
 import time
 import uuid
 import json
+import re
 
 # Page config
 st.set_page_config(page_title="AI Chatbot Kit", layout="centered")
 
+# --- Helper function to escape dollar signs ---
+def escape_dollar_signs(text):
+    """
+    Escapes dollar signs in a string for correct markdown rendering in Streamlit.
+    This prevents the markdown parser from interpreting them as LaTeX math.
+    """
+    # This regex finds a '$' that is not preceded by a '\'
+    return re.sub(r'(?<!\\)\$', r'\\$', text)
+
+# --- API Configuration ---
 # API base URL - read from environment variable
 API_BASE_URL = os.getenv("API_URL")
 if not API_BASE_URL:
@@ -20,7 +31,7 @@ API_BASE_URL = API_BASE_URL.rstrip('/')
 # Construct endpoint URLs
 CHAT_ENDPOINT = f"{API_BASE_URL}/api/chat/"
 
-# Streamed response function for API calls
+# --- Streamed response function for API calls ---
 def get_api_response(message, thread_id):
     try:
         with httpx.Client(timeout=60.0) as client:
@@ -50,20 +61,20 @@ def get_api_response(message, thread_id):
         yield word + " "
         time.sleep(0.02)
 
-# Initialize chat history and thread_id first
+# --- Session State Initialization ---
+# Initialize chat history and thread_id
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "thread_id" not in st.session_state:
     st.session_state.thread_id = str(uuid.uuid4())
 
+# --- Streamlit UI ---
 st.title("AI Chatbot Kit")
 
-
-# Add new conversation button in the header area (cleaned up)
+# Add new conversation button in the header area
 col1, col2 = st.columns([3, 1])
 with col1:
-    # Removed the caption text
     pass
         
 with col2:
@@ -72,41 +83,43 @@ with col2:
         st.session_state.messages = []
         st.rerun()
 
-# --- Display Existing Messages (containers without visual effect) ---
+# --- Display Existing Messages ---
 for message in st.session_state.messages:
-    if message["role"] == "user":
-        with st.container():
-            st.markdown(f"**{message['content']}**")
-    else:
-        with st.container():
-            st.markdown(message["content"])
+    with st.chat_message(message["role"]):
+        st.markdown(escape_dollar_signs(message["content"]))
 
-# --- User Input and Response Generation (removed spinner, kept word-by-word) ---
+# --- User Input and Response Generation ---
+# --- User Input and Response Generation (using standard Streamlit chat_message) ---
 if prompt := st.chat_input("What would you like to know?"):
     # Append the user's prompt to the chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     
-    # Display the user's message
-    with st.container():
-        st.markdown(f"**{prompt}**")
+    # Display the user's message using standard Streamlit chat
+    with st.chat_message("user"):
+        # Apply the escape function to the user's prompt before rendering
+        escaped_prompt = escape_dollar_signs(prompt)
+        st.markdown(escaped_prompt)
 
-    # Display assistant response with word-by-word streaming
-    with st.container():
-        # Call your existing API function to get a response
+    # Display assistant response using standard Streamlit chat
+    with st.chat_message("assistant"):
         response_stream = get_api_response(prompt, st.session_state.thread_id)
         
-        # Display the streaming effect word by word
         message_placeholder = st.empty()
         full_response = ""
         
-        # Stream the response word by word (matching Gemini style)
+        # Stream the response word by word
         for word in response_stream:
             full_response += word
-            time.sleep(0.05)  # Simulate a slight delay for better streaming effect
-            message_placeholder.markdown(f"{full_response}▌")
+            
+            # Escape dollar signs in the streamed part for live rendering
+            escaped_response = escape_dollar_signs(full_response)
+            
+            time.sleep(0.05)
+            message_placeholder.markdown(f"{escaped_response}▌")
         
         # Final message without cursor
-        message_placeholder.markdown(full_response)
+        final_full_response = escape_dollar_signs(full_response)
+        message_placeholder.markdown(final_full_response)
         
         # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        st.session_state.messages.append({"role": "assistant", "content": final_full_response})
