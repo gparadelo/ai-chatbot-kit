@@ -4,6 +4,7 @@ A simple AI chatbot with FastAPI backend and Streamlit frontend.
 
 ## Project Structure
 
+```
 ai-chatbot-kit/
 ├── backend/
 │   ├── app/
@@ -59,7 +60,7 @@ ai-chatbot-kit/
 ├── env.example
 ├── README.md
 └── run.py
-
+```
 
 ## Features
 
@@ -70,43 +71,6 @@ ai-chatbot-kit/
 - **Railway Deployment**: One-click deployment with private networking
 - **API-First Design**: Use our frontend or build your own
 - **Smart Configuration**: Automatic validation and error handling
-
-## Limitations & What This Kit Doesn't Include
-
-This is a **starter kit** designed to get you up and running quickly with a functional AI chatbot. Some use cases will require more development than others, depending on number of users, features required, security concerns, etc. Here are some things we left out to keep it simple and easy to expand:
-
-### Performance & Scale Limitations
-❌ **Rate limiting** - No request throttling or limits  
-❌ **Database pooling** - No connection pooling for database operations  
-❌ **Caching layer** - No Redis or in-memory caching  
-❌ **Load balancing** - Single instance deployment only  
-❌ **Horizontal scaling** - Not designed for multiple backend instances  
-
-### Security & Authentication
-❌ **User authentication** - No user login or session management  
-❌ **API key management** - No user-specific API key handling  
-❌ **Request validation** - Basic validation only  
-❌ **Rate limiting per user** - No individual user quotas  
-
-### Monitoring & Observability
-❌ **Monitoring/metrics** - No performance or usage metrics collection  
-❌ **Logging aggregation** - Basic console logging only  
-❌ **Performance profiling** - No APM tools  
-❌ **Health check alerts** - Basic health endpoint only  
-
-### Testing & Quality
-❌ **Extensive testing** - Limited test coverage  
-❌ **Code coverage** - No test coverage requirements  
-❌ **Integration tests** - Manual testing recommended  
-❌ **Performance tests** - No load testing included  
-
-### Production Features
-❌ **Backup strategies** - No automated database backups  
-❌ **CDN integration** - No static asset optimization  
-❌ **Database migrations** - No schema versioning  
-❌ **Environment-specific configs** - Single config approach  
-
-While many use cases won't need most of these features, please keep in mind these limitations.
 
 ## Architecture Benefits
 
@@ -207,3 +171,40 @@ Want to use your own frontend? Check out [backend/API_USAGE.md](backend/API_USAG
 - Complete API documentation
 - Integration examples in JavaScript, Python, and cURL
 - Security best practices
+
+## Limitations & What This Kit Doesn't Include
+
+This is a **starter kit** designed to get you up and running quickly with a functional AI chatbot. Some use cases will require more development than others, depending on number of users, features required, security concerns, etc. Here are some things we left out to keep it simple and easy to expand:
+
+### Performance & Scale Limitations
+❌ **Rate limiting** - No request throttling or limits  
+❌ **Database pooling** - No connection pooling for database operations  
+❌ **Caching layer** - No Redis or in-memory caching  
+❌ **Load balancing** - Single instance deployment only  
+❌ **Horizontal scaling** - Not designed for multiple backend instances  
+
+### Security & Authentication
+❌ **User authentication** - No user login or session management  
+❌ **API key management** - No user-specific API key handling  
+❌ **Request validation** - Basic validation only  
+❌ **Rate limiting per user** - No individual user quotas  
+
+### Monitoring & Observability
+❌ **Monitoring/metrics** - No performance or usage metrics collection  
+❌ **Logging aggregation** - Basic console logging only  
+❌ **Performance profiling** - No APM tools  
+❌ **Health check alerts** - Basic health endpoint only  
+
+### Testing & Quality
+❌ **Extensive testing** - Limited test coverage  
+❌ **Code coverage** - No test coverage requirements  
+❌ **Integration tests** - Manual testing recommended  
+❌ **Performance tests** - No load testing included  
+
+### Production Features
+❌ **Backup strategies** - No automated database backups  
+❌ **CDN integration** - No static asset optimization  
+❌ **Database migrations** - No schema versioning  
+❌ **Environment-specific configs** - Single config approach  
+
+While many use cases won't need most of these features, please keep in mind these limitations.
