@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from dotenv import load_dotenv
 
-from app.core.config import settings
-from app.routers import chat, health
+from app.api.core.config import settings
+from app.api.routers import chat, health
 
 # Load environment variables
 load_dotenv()

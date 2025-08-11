@@ -8,58 +8,36 @@ ai-chatbot-kit/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   ├── core/
+│   │   ├── api/                       # API Layer - FastAPI, database, configuration
 │   │   │   ├── __init__.py
-│   │   │   └── config.py
-│   │   ├── routers/
-│   │   │   ├── __init__.py
-│   │   │   ├── chat.py
-│   │   │   ├── health.py
-│   │   │   └── agents.py              # 🆕 New agents router
-│   │   ├── services/                  # 🆕 Business logic layer
-│   │   │   ├── __init__.py
-│   │   │   ├── chat_service.py
-│   │   │   └── agent_service.py
-│   │   ├── agents/                    # 🆕 CrewAI agents organization
-│   │   │   ├── __init__.py
-│   │   │   ├── base/                  # Base classes and utilities
+│   │   │   ├── core/                  # Configuration and settings
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── agent_base.py
-│   │   │   │   └── crew_base.py
-│   │   │   ├── crews/                 # Crew definitions
+│   │   │   │   └── config.py
+│   │   │   ├── models/                # Pydantic data models
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── research_crew.py
-│   │   │   │   ├── content_crew.py
-│   │   │   │   └── analysis_crew.py
-│   │   │   ├── agents/                # Individual agent definitions
+│   │   │   │   └── chat.py
+│   │   │   ├── routers/               # FastAPI route handlers
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── researcher.py
-│   │   │   │   ├── writer.py
-│   │   │   │   ├── analyst.py
-│   │   │   │   └── reviewer.py
-│   │   │   ├── tools/                 # Custom tools for agents
+│   │   │   │   ├── chat.py
+│   │   │   │   └── health.py
+│   │   │   ├── services/              # Business logic services
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── web_search.py
-│   │   │   │   ├── file_processor.py
-│   │   │   │   └── api_tools.py
-│   │   │   └── tasks/                 # Task definitions
-│   │   │       ├── __init__.py
-│   │   │       ├── research_tasks.py
-│   │   │       ├── content_tasks.py
-│   │   │       └── analysis_tasks.py
-│   │   ├── models/                    # 🆕 Pydantic models
+│   │   │   │   └── chat_service.py
+│   │   │   └── database.py            # Database operations
+│   │   ├── ai/                        # AI Layer - CrewAI, agents, tasks, tools
 │   │   │   ├── __init__.py
-│   │   │   ├── chat.py
-│   │   │   ├── agent.py
-│   │   │   └── crew.py
-│   │   └── utils/                     # 🆕 Utility functions
-│   │       ├── __init__.py
-│   │       ├── logging.py
-│   │       └── exceptions.py
+│   │   │   ├── crew/                  # CrewAI crew definitions
+│   │   │   │   ├── config/            # Agent and task configurations
+│   │   │   │   │   ├── agents.yaml
+│   │   │   │   │   └── tasks.yaml
+│   │   │   │   ├── crew.py            # Main crew implementation
+│   │   │   │   └── main.py            # Crew initialization
+│   │   │   └── tools/                 # AI tools and utilities
+│   │   │       └── __init__.py
 │   ├── Dockerfile
-│   ├── main.py
-│   ├── README.md
-│   └── requirements.txt               # Update with CrewAI dependencies
+│   ├── main.py                        # FastAPI application entry point
+│   ├── requirements.txt
+│   └── STRUCTURE.md                   # Backend architecture documentation
 ├── frontend/
 │   ├── pages/                         # 🆕 Multiple Streamlit pages
 │   │   ├── 1_💬_Chat.py
@@ -92,6 +70,57 @@ ai-chatbot-kit/
 - **Railway Deployment**: One-click deployment with private networking
 - **API-First Design**: Use our frontend or build your own
 - **Smart Configuration**: Automatic validation and error handling
+
+## Limitations & What This Kit Doesn't Include
+
+This is a **starter kit** designed to get you up and running quickly with a functional AI chatbot. Some use cases will require more development than others, depending on number of users, features required, security concerns, etc. Here are some things we left out to keep it simple and easy to expand:
+
+### Performance & Scale Limitations
+❌ **Rate limiting** - No request throttling or limits  
+❌ **Database pooling** - No connection pooling for database operations  
+❌ **Caching layer** - No Redis or in-memory caching  
+❌ **Load balancing** - Single instance deployment only  
+❌ **Horizontal scaling** - Not designed for multiple backend instances  
+
+### Security & Authentication
+❌ **User authentication** - No user login or session management  
+❌ **API key management** - No user-specific API key handling  
+❌ **Request validation** - Basic validation only  
+❌ **Rate limiting per user** - No individual user quotas  
+
+### Monitoring & Observability
+❌ **Monitoring/metrics** - No performance or usage metrics collection  
+❌ **Logging aggregation** - Basic console logging only  
+❌ **Performance profiling** - No APM tools  
+❌ **Health check alerts** - Basic health endpoint only  
+
+### Testing & Quality
+❌ **Extensive testing** - Limited test coverage  
+❌ **Code coverage** - No test coverage requirements  
+❌ **Integration tests** - Manual testing recommended  
+❌ **Performance tests** - No load testing included  
+
+### Production Features
+❌ **Backup strategies** - No automated database backups  
+❌ **CDN integration** - No static asset optimization  
+❌ **Database migrations** - No schema versioning  
+❌ **Environment-specific configs** - Single config approach  
+
+While many use cases won't need most of these features, please keep in mind these limitations.
+
+## Architecture Benefits
+
+The backend has been reorganized with **clear separation of concerns**:
+
+- **API Layer** (`app/api/`): FastAPI routers, database, configuration, and business logic
+- **AI Layer** (`app/ai/`): CrewAI crews, agents, tasks, and tools
+
+This structure provides:
+- **Maintainability**: Easier to modify one layer without affecting the other
+- **Testing**: Can test API logic independently from AI logic  
+- **Scalability**: Can scale AI services separately from API services
+- **Reusability**: AI components can be reused in different contexts
+- **Organization**: Logical grouping makes the codebase easier to navigate
 
 ## Prerequisites
 

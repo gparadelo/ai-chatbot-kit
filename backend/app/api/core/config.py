@@ -53,6 +53,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     
+    # Rate Limiting Configuration
+    rate_limit_enabled: bool = False
+    rate_limit_requests_per_minute: int = 10
+    rate_limit_burst_capacity: int = 20
+    
     class Config:
         env_file = [".env", "../.env"]  # Try current dir first, then parent dir
         case_sensitive = False
