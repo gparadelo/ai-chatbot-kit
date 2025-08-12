@@ -35,31 +35,20 @@ ai-chatbot-kit/
 │   │   │   │   └── main.py            # Crew initialization
 │   │   │   └── tools/                 # AI tools and utilities
 │   │   │       └── __init__.py
+│   │   └── __init__.py
+│   ├── data/                          # Data storage directory
 │   ├── Dockerfile
 │   ├── main.py                        # FastAPI application entry point
 │   ├── requirements.txt
-│   └── STRUCTURE.md                   # Backend architecture documentation
+│   └── API_USAGE.md                   # Backend API documentation
 ├── frontend/
-│   ├── pages/                         # 🆕 Multiple Streamlit pages
-│   │   ├── 1_💬_Chat.py
-│   │   ├── 2_🤖_Agents.py
-│   │   └── 3_📊_Results.py
-│   ├── components/                    # 🆕 Reusable UI components
-│   │   ├── __init__.py
-│   │   ├── chat_interface.py
-│   │   └── agent_interface.py
-│   ├── frontend.py
+│   ├── frontend.py                    # Streamlit frontend application
 │   ├── Dockerfile
-│   ├── README.md
 │   └── requirements.txt
-├── shared/                            # 🆕 Shared utilities between frontend/backend
-│   ├── __init__.py
-│   ├── constants.py
-│   └── schemas.py
 ├── docker-compose.yml
 ├── env.example
-├── README.md
-└── run.py
+├── RAILWAY_DEPLOYMENT_GUIDE.md        # Railway deployment instructions
+└── README.md
 ```
 
 ## Features
@@ -72,19 +61,14 @@ ai-chatbot-kit/
 - **API-First Design**: Use our frontend or build your own
 - **Smart Configuration**: Automatic validation and error handling
 
-## Architecture Benefits
+## Architecture
 
-The backend has been reorganized with **clear separation of concerns**:
+The backend has been organized with **clear separation of concerns**:
 
 - **API Layer** (`app/api/`): FastAPI routers, database, configuration, and business logic
 - **AI Layer** (`app/ai/`): CrewAI crews, agents, tasks, and tools
 
-This structure provides:
-- **Maintainability**: Easier to modify one layer without affecting the other
-- **Testing**: Can test API logic independently from AI logic  
-- **Scalability**: Can scale AI services separately from API services
-- **Reusability**: AI components can be reused in different contexts
-- **Organization**: Logical grouping makes the codebase easier to navigate
+The frontend contains a simple StreamLit implementation that uses the backend API.
 
 ## Prerequisites
 
@@ -100,8 +84,6 @@ Before running this project, ensure you have the following installed on your sys
 
 ### LLM Connection
 - Get your OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
-- 
-
 
 ### Setup
 1. Copy the `env.example` file and rename it to `.env`:
@@ -132,38 +114,6 @@ Before running this project, ensure you have the following installed on your sys
    - Frontend: http://localhost:8501
    - Backend API: http://localhost:8000
 
-## Railway Deployment
-
-This project is configured for Railway's **private networking**, keeping your backend secure and internal.
-
-You can choose to follow the step-by-step tutorial which will use Railway to deploy the project. If you want to use another hosting service, please feel free to do so. 
-
-### How to deploy the project: 
-
-#### Deploy Backend
-1. Create a new Railway service named `backend`
-2. Connect to this repository
-3. Set the **Source Directory** to `backend`
-4. Add required environment variables:
-   - `OPENAI_API_KEY=your_actual_openai_api_key_here` (if using OpenAI)
-   - `ANTHROPIC_API_KEY=your_anthropic_api_key_here` (if using Anthropic)
-   - `HOST=::` (required for Railway's IPv6 networking)
-   - **Note**: Model selection is configured per agent in `backend/app/crew/config/agents.yaml`
-5. Railway will automatically detect the Dockerfile
-6. Create a new Railway volume attatched to `backend` mounted on `/data`
-
-#### Deploy Frontend
-1. Create another Railway service named `frontend` in the same project
-2. Connect to this repository
-3. Set the **Source Directory** to `frontend`
-4. Add environment variable: `API_URL=http://${{backend.RAILWAY_PRIVATE_DOMAIN}}:8000`
-5. Add a public domain for the frontend (this is the only public service)
-
-## API Endpoints
-
-- `GET /api/health/` - Health check
-- `POST /api/chat/` - Chat endpoint (use `message` and `thread_id` query parameters)
-
 ## Using Only the Backend
 
 Want to use your own frontend? Check out [backend/API_USAGE.md](backend/API_USAGE.md) for:
@@ -171,6 +121,16 @@ Want to use your own frontend? Check out [backend/API_USAGE.md](backend/API_USAG
 - Complete API documentation
 - Integration examples in JavaScript, Python, and cURL
 - Security best practices
+
+### Running the Crew Directly
+
+To test the CrewAI crew independently without the full API:
+```bash
+cd backend/app/ai/crew
+python main.py
+```
+
+This will start an interactive CLI chat session using the crew configuration.
 
 ## Limitations & What This Kit Doesn't Include
 
