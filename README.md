@@ -174,7 +174,7 @@ Want to use your own frontend? Check out [backend/API_USAGE.md](backend/API_USAG
 
 ## Limitations & What This Kit Doesn't Include
 
-This is a **starter kit** designed to get you up and running quickly with a functional AI chatbot. Some use cases will require more development than others, depending on number of users, features required, security concerns, etc. Here are some things we left out to keep it simple and easy to expand:
+This is a **starter kit** designed to get you up and running quickly with a functional AI chatbot. Some use cases will require more development than others, depending on number of users, features required, security concerns, etc. Here are some things left out to keep it simple and easy to expand:
 
 ### Performance & Scale Limitations
 ❌ **Rate limiting** - No request throttling or limits  
@@ -208,3 +208,28 @@ This is a **starter kit** designed to get you up and running quickly with a func
 ❌ **Environment-specific configs** - Single config approach  
 
 While many use cases won't need most of these features, please keep in mind these limitations.
+
+## Next Steps & Customization Ideas
+
+Once you have the basic AI chatbot running, here are some ideas to enhance and customize your application:
+
+### Adding New AI Agents
+**How to start**: Create new agent classes in `backend/app/crew/agents/` following the existing pattern. Define role, goal, and backstory in YAML config files.
+- **Documentation**: [CrewAI Agents Guide](https://docs.crewai.com/how-to/agents/)
+
+### Integrating External Tools
+**How to start**: Add tools to empower agents with capabilities ranging from web searching and data analysis to collaboration and delegating tasks among coworkers.
+- **Documentation**: [CrewAI Tools Guide](https://docs.crewai.com/en/concepts/tools)
+
+### Customizing Prompts & Responses
+**How to start**: Edit the `backend/app/crew/config/agents.yaml` file to modify agent personalities, or update task descriptions in `tasks.yaml`.
+- **Documentation**: [CrewAI Tasks Guide](https://docs.crewai.com/en/concepts/tasks)
+- **Prompt Engineering**: [OpenAI Best Practices](https://platform.openai.com/docs/guides/prompt-engineering)
+
+### API Extensions
+**How to start**: Add new endpoints in `backend/app/routers/` and implement the business logic in `backend/app/services/`. 
+- **Documentation**: [FastAPI Docs](https://fastapi.tiangolo.com/)
+
+### 💡 Advanced AI Features
+**How to start**: Implement memory systems using vector databases like ChromaDB, and create multi-agent workflows by chaining multiple agents together.
+- **Documentation**: [CrewAI Memory](https://docs.crewai.com/en/concepts/memory), [ChromaDB Guide](https://docs.trychroma.com/)
