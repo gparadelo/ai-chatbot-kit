@@ -59,7 +59,7 @@ The backend will automatically enable CORS for your specified domains.
 
 ### Health Check
 - **GET** `/api/health/`
-- **Response**: `{"status": "healthy", "timestamp": "..."}`
+- **Response**: `{"status": "healthy", "timestamp": "...", "version": "1.0.0", "uptime": 123.45}`
 
 ## Example Frontend Integration
 

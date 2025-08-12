@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     cors_origins_str: str = ""
     cors_allow_methods: List[str] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     cors_allow_headers: List[str] = ["*"]
+    cors_allow_credentials: bool = True
     
     @property
     def cors_origins(self) -> List[str]:

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from ...ai.crew.crew import CrewaiConversationalChatbotCrew
-from ..database import add_message, cleanup_expired_threads
+from ..database import add_message, cleanup_expired_threads, get_recent_messages
 from ..models.chat import ChatRequest, ChatResponse
 from ..services.chat_service import build_context_prompt
 import logging
