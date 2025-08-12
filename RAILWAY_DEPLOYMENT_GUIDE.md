@@ -6,7 +6,7 @@ This guide will walk you through the process of deploying the AI Chatbot Kit, wh
 
 #### **Step 1: Fork the GitHub Repository**
 
-1.  Navigate to the `gparadel0/ai-chatbot-kit` repository on GitHub.
+1.  Navigate to the `gparadelo/ai-chatbot-kit` repository on GitHub.
 2.  Click the **"Fork"** button in the top-right corner.
 3.  This will create a copy of the repository under your own GitHub account. This is the repository you will connect to Railway.
 
